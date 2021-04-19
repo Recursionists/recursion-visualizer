@@ -3,6 +3,7 @@ const fetch = require('node-fetch');
 const OAuthController = {};
 
 OAuthController.getCode = (req, res, next) => {
+  console.log('req.query.code:', req.query.code);
   const parameters = {
     //encrypt client id
     client_id: process.env.CLIENT_ID,
@@ -24,6 +25,7 @@ OAuthController.getCode = (req, res, next) => {
     })
     .then((data) => {
       res.locals.accessToken = data.access_token;
+      console.log('data from login req:', data);
       return next();
     })
     .catch((err) => null);
