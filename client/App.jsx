@@ -1,37 +1,94 @@
 import React, { Component } from 'react';
-// import { Switch, Route } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
+
+import Oauth from './Oauth.jsx';
+import Login from './Login.jsx';
+import Signup from './Signup.jsx';
+import MainContainer from './MainContainer.jsx';
+
+
 // import * as d3 from 'd3';
 import Tree from 'react-d3-tree';
 
 import './stylesheets/styles.css';
 
+
+
+
+
+
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      loggedIn: false,
+      functionText: ''
+    }
+    this.changeState = this.changeState.bind(this);
+  } 
+  
+  changeState(obj) {
+    this.setState(obj);
+    // console.log(this.state);
   }
-
+  
   componentDidMount() {}
 
-  componentDidUpdate() {}
 
+  
   render() {
-    const data = { name: 'root', children: [] };
-
-    // const root = d3.hierarchy(data);
-
-    return (
-      <div>
-        <h1>testing</h1>
-        <p>Nick Stillman</p>
-        <a
-          href={`https://github.com/login/oauth/authorize?client_id=090533ad573e6595ce3c&redirect_uri=http://localhost:8080/OAuthlogin`}
-        >
-          <p>OAuth login test</p>
-        </a>
-      </div>
-    );
-  }
-}
-
-export default App;
+    
+    console.log(this.state);
+    
+    if (this.state.loggedIn) {
+      return (
+        <div>
+        <MainContainer functionText={ this.state.functionText } changeState={ this.changeState } />
+        </div>
+        
+        );
+      }
+      
+      
+      return (
+        <Router>
+        <div>
+        
+        <Link to="/oauth">Github Oauth</Link>
+        <hr />
+        
+        <Link to="/login">Login Without Github</Link>
+        <hr />
+        
+        <Link to="/signup">Sign Up</Link>
+        
+        <hr />
+        
+        <Switch>
+        <Route exact path="/oauth">
+        <Oauth />
+        </Route>
+        
+        <Route exact path="/login">
+        <Login changeState={ this.changeState }/>
+        </Route>
+        
+        <Route exact path="/signup">
+        <Signup />
+        </Route>
+        
+        </Switch>
+        </div>
+        </Router>
+        );
+      }
+      
+    }
+    
+    export default App;
+    
