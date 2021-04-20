@@ -4,13 +4,17 @@ class Visualizer extends Component {
   constructor(props) {
     super(props);
   }
+  
+  handleClick(e) {
+    
+    console.log('CLICKED EXECUTE', e.target.id);
+    
+  }
 
-handleClick(e) {
-
-console.log('CLICKED EXECUTE', e.target.id);
-
-}
-
+  handleClear(e){
+    
+  }
+  
   render() {
     
     console.log(2222, this.props.functionText)
@@ -23,6 +27,7 @@ console.log('CLICKED EXECUTE', e.target.id);
       }} rows="8" cols="100">
       </textarea>
       <button type="submit" id='execute' onClick={(e) => {this.handleClick(e)}}>Execute</button>
+      <button type="clear" id='clearText' onClick={(e) => {this.handleClear(e)}}>Execute</button>
       
       //run and clear buttons
       </div> 
