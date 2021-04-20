@@ -4,8 +4,6 @@ require('dotenv').config();
 const userAuthController = {};
 
 userAuthController.authorize = (req, res, next) => {
-  console.log('req.body', req.body);
-
   const userQuery = {
     text: `SELECT * FROM users WHERE username = $1`,
     values: [`${req.body.username}`],
@@ -20,11 +18,13 @@ userAuthController.authorize = (req, res, next) => {
 
       //check if the password matches
       if (req.body.password === user.password) {
-        console.log(user);
+        res.locals.user = user;
         return next();
       } else {
-        // DO SOMETHING IF THE PASSWORD DOES NOT MATCH
-        res.locals.baduser = true;
+        res.locals.error = {
+          code: e.code,
+          message: e.detail,
+        };
         res.redirect('/');
       }
     })

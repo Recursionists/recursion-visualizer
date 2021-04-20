@@ -2,6 +2,7 @@ const express = require('express');
 const OAuthController = require('../controllers/OAuthController');
 const cookieController = require('../controllers/cookieController');
 const userAuthController = require('../controllers/userAuthController');
+const signupController = require('../controllers/signupController');
 
 const router = express.Router();
 
@@ -9,12 +10,12 @@ const router = express.Router();
  * Landing page
  * Login page endpoint
  */
-router.get(
+router.post(
   '/login',
   userAuthController.authorize,
   //  userAuthController.getFuncs,
   (req, res) => {
-    return res.status(200).json(res.locals.user);
+    return res.redirect('/main');
   }
 );
 
@@ -28,7 +29,7 @@ router.get(
   OAuthController.getUser,
   cookieController.setSSIDCookie,
   (req, res) => {
-    return res.redirect('/');
+    return res.redirect('/main');
   }
 );
 
@@ -36,8 +37,8 @@ router.get(
  * Landing page
  * Sign up endpoint
  */
-router.get('/signup', (req, res) => {
-  return res.status(200).sendFile(path.join(__dirname, '../index.html'));
+router.post('/signup', signupController.createUser, (req, res) => {
+  return res.redirect('/main');
 });
 
 module.exports = router;

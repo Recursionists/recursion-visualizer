@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser');
 const app = express();
 
 const authRouter = require('./routes/auth');
+const funcRouter = require('./routes/funcData');
 
 const PORT = 3000;
 
@@ -13,11 +14,16 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 app.use('/auth', authRouter);
+app.use('/main/func', funcRouter);
 
 /**
  * Landing page
  */
 app.get('/', (req, res) => {
+  return res.status(200).sendFile(path.join(__dirname, '../index.html'));
+});
+
+app.get('/main', (req, res) => {
   return res.status(200).sendFile(path.join(__dirname, '../index.html'));
 });
 
