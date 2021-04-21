@@ -1,17 +1,17 @@
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
-
-const app = express();
-
 const authRouter = require('./routes/auth');
 const funcRouter = require('./routes/funcData');
+
+
+const app = express();
 
 const PORT = 3000;
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(express.urlencoded({ extended: true }));
 
 app.use('/auth', authRouter);
 app.use('/main/func', funcRouter);

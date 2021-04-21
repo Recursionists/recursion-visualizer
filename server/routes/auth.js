@@ -13,6 +13,7 @@ const router = express.Router();
 router.post(
   '/login',
   userAuthController.authorize,
+  cookieController.setLoginCookie,
   //  userAuthController.getFuncs,
   (req, res) => {
     return res.redirect('/main');
@@ -27,7 +28,7 @@ router.get(
   '/OAuthlogin',
   OAuthController.getCode,
   OAuthController.getUser,
-  cookieController.setSSIDCookie,
+  cookieController.setOAuthCookie,
   (req, res) => {
     return res.redirect('/main');
   }

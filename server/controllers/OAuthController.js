@@ -10,6 +10,7 @@ OAuthController.getCode = (req, res, next) => {
     client_secret: process.env.CLIENT_SECRET,
     code: req.query.code,
   };
+  console.log("code: ", parameters.code)
 
   fetch('https://github.com/login/oauth/access_token', {
     method: 'POST',
