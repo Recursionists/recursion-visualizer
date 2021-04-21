@@ -28,7 +28,7 @@ class App extends Component {
     this.state = {
       loggedIn: false,
       showLinks: true,
-      functionText: ''
+      functionText: '',
     }
     this.changeState = this.changeState.bind(this);
   } 
