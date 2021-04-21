@@ -11,57 +11,11 @@ class Visualizer extends Component {
   
   render() {
     
-// const { tree } = this.props
-    
-// const tree = {
-//   name: 'CEO',
-//   children: [
-//     {
-//       name: 'Manager',
-//       attributes: {
-//         department: 'Production',
-//       }}]}
-
-const tree = {
-  name: 'CEO',
-  children: [
-    {
-      name: 'Manager',
-      attributes: {
-        department: 'Production',
-      },
-      children: [
-        {
-          name: 'Foreman',
-          attributes: {
-            department: 'Fabrication',
-          },
-          children: [
-            {
-              name: 'Worker',
-            },
-          ],
-        },
-        {
-          name: 'Foreman',
-          attributes: {
-            department: 'Assembly',
-          },
-          children: [
-            {
-              name: 'Worker',
-            },
-          ],
-        },
-      ],
-    },
-  ],
-};
-
+const { tree } = this.props
 
     return (
 
-      <div className="treeWrapper">
+      <div className="treeWrapper" style={{height: '800px'}}>
       <Tree orientation='vertical' data={ tree } />
       </div>
     
@@ -74,38 +28,38 @@ const tree = {
 
 
 
-const orgChart = {
-  name: 'CEO',
-  children: [
-    {
-      name: 'Manager',
-      attributes: {
-        department: 'Production',
-      },
-      children: [
-        {
-          name: 'Foreman',
-          attributes: {
-            department: 'Fabrication',
-          },
-          children: [
-            {
-              name: 'Worker',
-            },
-          ],
-        },
-        {
-          name: 'Foreman',
-          attributes: {
-            department: 'Assembly',
-          },
-          children: [
-            {
-              name: 'Worker',
-            },
-          ],
-        },
-      ],
-    },
-  ],
-};
+// const orgChart = {
+//   name: 'CEO',
+//   children: [
+//     {
+//       name: 'Manager',
+//       attributes: {
+//         department: 'Production',
+//       },
+//       children: [
+//         {
+//           name: 'Foreman',
+//           attributes: {
+//             department: 'Fabrication',
+//           },
+//           children: [
+//             {
+//               name: 'Worker',
+//             },
+//           ],
+//         },
+//         {
+//           name: 'Foreman',
+//           attributes: {
+//             department: 'Assembly',
+//           },
+//           children: [
+//             {
+//               name: 'Worker',
+//             },
+//           ],
+//         },
+//       ],
+//     },
+//   ],
+// };
