@@ -27,6 +27,7 @@ class App extends Component {
     super(props);
     this.state = {
       loggedIn: false,
+      showLinks: true,
       functionText: ''
     }
     this.changeState = this.changeState.bind(this);
@@ -37,13 +38,17 @@ class App extends Component {
     // console.log(this.state);
   }
   
-  componentDidMount() {}
-
-
+  componentDidMount() {
+    this.setState({ showLinks: true })
+    
+  }
+  
+  
   
   render() {
     
     console.log(this.state);
+    console.log('BACK TO RENDER');
     
     if (this.state.loggedIn) {
       return (
@@ -59,17 +64,13 @@ class App extends Component {
         <Router>
         <div>
         
-        <Link to="/oauth">Github Oauth</Link>
-        <hr />
+        <Switch>        
+        <Route exact path="/">
+        <Link to="/oauth">Github Oauth<br/></Link>
+        <Link to="/login">Login Without Github<br/></Link>
+        <Link to="/signup">Sign Up<br/></Link>
+        </Route>
         
-        <Link to="/login">Login Without Github</Link>
-        <hr />
-        
-        <Link to="/signup">Sign Up</Link>
-        
-        <hr />
-        
-        <Switch>
         <Route exact path="/oauth">
         <Oauth />
         </Route>

@@ -16,7 +16,7 @@ class Login extends Component {
   //  })
   //    .then(data => data.json())
   // }
-  
+  componentDidMount() {}
   
   handleSubmit (e) {
     // hit database
@@ -46,7 +46,6 @@ class Login extends Component {
   
   
   render() {
-    
     
     return (
       <div className="login-wrapper">
