@@ -7,14 +7,28 @@ class Visualizer extends Component {
   
   handleClick(e) {
     
-    console.log('CLICKED EXECUTE', e.target.id);
-    
-  }
-
-  handleClear(e){
-    
+    console.log('CLICKED', e.target.id);
+    if (e.target.id === 'execute') {
+      this.execute();
+    }
+    if (e.target.id === 'clearText'){
+      this.props.changeState({ functionText: ''});
+    }
   }
   
+execute() {
+const { functionText } = this.props;
+console.log('functionText:', functionText);
+
+
+
+
+
+
+
+}
+
+
   render() {
     
     console.log(2222, this.props.functionText)
@@ -22,14 +36,12 @@ class Visualizer extends Component {
       <div>
       <label>Enter function here:</label>
       
-      <textarea className='functionEditor' id="functionText" onChange={(e) => {
+      <textarea className='functionEditor' id="functionText" value={ this.props.functionText } onChange={(e) => {
         this.props.changeState({ functionText: e.target.value });
       }} rows="8" cols="100">
       </textarea>
       <button type="submit" id='execute' onClick={(e) => {this.handleClick(e)}}>Execute</button>
-      <button type="clear" id='clearText' onClick={(e) => {this.handleClear(e)}}>Execute</button>
-      
-      //run and clear buttons
+      <button type="clear" id='clearText' onClick={(e) => {this.handleClick(e)}}>Clear</button>
       </div> 
       );
     }
