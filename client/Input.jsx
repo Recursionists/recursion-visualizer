@@ -17,7 +17,7 @@ class Input extends Component {
   }
   
   execute() {
-    let head;
+    let tree;
     
     function Node (args, count, level) {
       // enter truthy for "time machine mode":
@@ -31,28 +31,16 @@ class Input extends Component {
       this.children = [];
     }
     
-    function trace(funcObj) {
-      if (typeof funcObj !== 'object') return;
+    function trace(func) {
+      if (typeof func !== 'function') return;
       
       let count = 0;
       let level = 0;
-      let parents = [];  
+      let parents = [];
       
-console.log('funcObj:', funcObj)
-      const [funcName, func] = Object.entries(funcObj)[0];
-
-// // eval funcStr
-//       const evalThis = 'const func = ' + funcStr;
-// eval(evalThis);
-// console.log('func:', func);
-
-
-      if (typeof func !== 'function') return;
-console.log('fib:', fib)
-
-      const res = funcName + ' = ' + newFunc.toString();
-      eval(res);
-console.log('fib after eval:', fib)
+      // const res = 'ourfdunc = ' + newFunc.toString();
+      // eval(res);
+      // console.log('newFunc:', newFunc);
       // newFunc = newFunc.bind(this);
       return newFunc;  
       
@@ -60,7 +48,7 @@ console.log('fib after eval:', fib)
       function newFunc(...args) {
         const curr = new Node(args, count, level);
         
-        if (!level) head = curr;
+        if (!level) tree = curr;
         
         if (parents.length) {
           parents[parents.length - 1].children.push(curr);
@@ -80,39 +68,45 @@ console.log('fib after eval:', fib)
     }
     
     const { functionText } = this.props;
-
-      console.log('functionText:', functionText);
-      let evilFunc;
-      const evalThis = 'evilFunc = ' + functionText;
-
-      console.log('evalThis:', evalThis)
-      'let funcName'
-      eval(evalThis);
-let fib;
-      // const evilFunc = function fib(n) {
-      //   if (n < 2) return n;
-      //   return fib(n - 1) + fib(n - 2);
-      // };
-      
-      // console.log('evilFunc:', evilFunc)
-      
-      // // algo to grab function name from text;
-      const funcName = 'fib'    
-
-      const passFunc = {};
-      passFunc[funcName] = evilFunc;
-      
-      // console.log('passFunc:', passFunc);
-      
-      const traced = trace(passFunc);
-      
-      console.log('traced:', traced)
-      const initialArgs = [5];
-      
-      // console.log('Result: ', traced(...initialArgs));
-      
-      console.log('Head:', head)
     
+    console.log('functionText:', functionText);
+    
+    //grab name of function
+    let fnName = '';
+    let hitSpace = false;
+    
+    for (let i = 0; i < functionText.length; i++) {
+      const curr = functionText[i];
+      if (hitSpace && fnName.length && (curr === ' ' || curr === '(')) {
+        break;
+      }
+      
+      if (hitSpace && curr !== ' ' && curr !== '(') {
+        fnName += curr;
+        continue;
+      }
+      
+      if (curr === ' ') {
+        hitSpace = true;
+      }
+    }
+    
+    const replacedText = functionText.replaceAll(fnName, 'ourfunc').replace('ourfunc', fnName);
+    // const replacedText = replacedTextRaw.replace('ourfunc', fnName);
+    
+    let evilFunc;
+    const evalThis = 'evilFunc = ' + replacedText;
+    
+    eval(evalThis);
+    
+    const ourfunc = trace(evilFunc);
+    
+    const initialArgs = [5];
+    
+    console.log('Result: ', ourfunc(...initialArgs));
+    
+    console.log('Head:', tree)
+    this.props.changeState({ tree })
   }
   
   
