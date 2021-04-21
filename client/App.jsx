@@ -3,7 +3,8 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
+  Link,
+  Redirect
 } from "react-router-dom";
 
 import Oauth from './Oauth.jsx';
@@ -13,7 +14,7 @@ import MainContainer from './MainContainer.jsx';
 
 
 // import * as d3 from 'd3';
-import Tree from 'react-d3-tree';
+// import Tree from 'react-d3-tree';
 
 import './stylesheets/styles.css';
 
@@ -27,8 +28,8 @@ class App extends Component {
     super(props);
     this.state = {
       loggedIn: false,
-      showLinks: true,
       functionText: '',
+      tree: {}
     }
     this.changeState = this.changeState.bind(this);
   } 
@@ -39,7 +40,6 @@ class App extends Component {
   }
   
   componentDidMount() {
-    this.setState({ showLinks: true })
     
   }
   
@@ -48,22 +48,19 @@ class App extends Component {
   render() {
     
     console.log(this.state);
-    console.log('BACK TO RENDER');
     
-    if (this.state.loggedIn) {
-      return (
-        <div>
-        <MainContainer functionText={ this.state.functionText } changeState={ this.changeState } />
+    
+    return (
+      <Router>
+      <div>
+      { this.state.loggedIn ? <div>  
+        <Redirect to="/maincontainer" />
+        <Route exact path="/maincontainer">
+        <MainContainer functionText={ this.state.functionText } changeState={ this.changeState } tree={ this.state.tree }
+/> 
+        </Route>
         </div>
-        
-        );
-      }
-      
-      
-      return (
-        <Router>
-        <div>
-        
+        :
         <Switch>        
         <Route exact path="/">
         <Link to="/oauth">Github Oauth<br/></Link>
@@ -84,12 +81,13 @@ class App extends Component {
         </Route>
         
         </Switch>
-        </div>
-        </Router>
-        );
       }
-      
+      </div>
+      </Router>
+      );
     }
     
-    export default App;
-    
+  }
+  
+  export default App;
+  
