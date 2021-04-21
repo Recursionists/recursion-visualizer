@@ -3,7 +3,13 @@ import React, { Component } from 'react';
 class Login extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      usernameSubmit: '',
+      passwordSubmit: '',
+    }
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.formChange = this.formChange.bind(this)
+
   }
   
   // async loginUser(credentials) {
@@ -20,7 +26,7 @@ class Login extends Component {
   
   handleSubmit (e) {
     // hit database
-    
+    console.log(e)
     // set auth state
     
     // if approved redirect to MainContainer
@@ -42,6 +48,12 @@ class Login extends Component {
     // console.log(this.state);
     console.log('props--------', this.props)
   }
+
+  formChange(e){
+    console.log("e: ", e)
+    console.log("e.value", e.target.value)
+    this.setState({usernameSubmit: e.target.value})
+  }
   
   
   
@@ -53,11 +65,11 @@ class Login extends Component {
       <form onSubmit={ this.handleSubmit }>
       <label>
       <p>Username</p>
-      <input type="text" />
+      <input type="text" placeholder="pee" onChange={e=>{this.formChange(e)}}/>
       </label>
       <label>
       <p>Password</p>
-      <input type="password" />
+      <input type="password" onChange={e=>{this.formChange(e)}}/>
       </label>
       <div>
       <button type="submit">Submit</button>
