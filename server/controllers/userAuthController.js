@@ -12,9 +12,12 @@ userAuthController.authorize = (req, res, next) => {
   db.query(userQuery)
     .then((data) => {
       const user = {
+        id: data.rows[0].id,
         username: data.rows[0].username,
         password: data.rows[0].password,
       };
+
+      console.log('USER', user)
 
       //check if the password matches
       if (req.body.password === user.password) {

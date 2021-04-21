@@ -10,7 +10,9 @@ class Oauth extends Component {
     
     return (
       <div>
+        <a href ="https://github.com/login/oauth/authorize?client_id=090533ad573e6595ce3c&redirect_uri=http://localhost:8080/">
       OAUTH
+      </a>
       </div>      
       );
     }
