@@ -27,8 +27,11 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      loggedIn: false,
-      functionText: '',
+      loggedIn: true,
+      functionText: `function fib(n) {
+        if (n < 2) return n;
+        return fib(n - 1) + fib(n - 2);
+      }`,
       tree: {}
     }
     this.changeState = this.changeState.bind(this);

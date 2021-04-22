@@ -101,7 +101,7 @@ class Input extends Component {
     
     const ourfunc = trace(evilFunc);
     
-    const initialArgs = [5];
+    const initialArgs = [9];
     
     console.log('Result: ', ourfunc(...initialArgs));
     

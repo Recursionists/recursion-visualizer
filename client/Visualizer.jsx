@@ -1,3 +1,4 @@
+import { color } from 'd3-color';
 import React, { Component } from 'react';
 import Tree from 'react-d3-tree';
 
@@ -15,8 +16,15 @@ const { tree } = this.props
 
     return (
 
-      <div className="treeWrapper" style={{height: '800px'}}>
-      <Tree orientation='vertical' data={ tree } />
+      <div className="treeWrapper" style={{height: '700px'}}>
+      <Tree orientation='vertical' 
+            initialDepth={3}
+            translate={{x:200, y:200}}
+            depthFactor={ 0 }
+            collapsible={ true } 
+            enableLegacyTransition={ true } 
+            transitionDuration={ 8000 } 
+            data={ tree } />
       </div>
     
       );
