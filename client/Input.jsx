@@ -9,63 +9,74 @@ class Input extends Component {
     
     console.log('CLICKED', e.target.id);
     if (e.target.id === 'execute') {
-      this.execute();
+      if (this.props.inputs.functionText.length && this.props.inputs.argsText.length) {
+        this.execute();
+      } else {
+        console.log('Empty function or args');
+      }
     }
     if (e.target.id === 'clearText'){
-      this.props.changeState({ functionText: ''});
+      this.props.changeState({ inputs: { functionText: '', argsText: '', indexText: '' }});
     }
   }
   
   execute() {
-    let head;
+    let tree;
     
+    // evaluate input text and call trace function
+    const { functionText } = this.props.inputs;
+    let fnName = grabName(functionText);
+    const replacedText = functionText.replaceAll(fnName, 'ourfunc').replace('ourfunc', fnName);
+    
+    let evilFunc;
+    const evalThis = 'evilFunc = ' + replacedText;
+    eval(evalThis);
+    const ourfunc = trace(evilFunc);
+    
+    const { argsText } = this.props.inputs;
+    const evilArgs = eval(argsText);
+    let functionResult;
+    if (Array.isArray(evilArgs)) {
+      functionResult = ourfunc(...evilArgs);
+    } else {
+      functionResult = ourfunc(evilArgs);      
+    }
+    
+    console.log('Head:', tree)
+    const { indexText } = this.props.inputs;
+    let indices = eval(indexText);
+    if (indices === undefined) indices = [];
+    if (!Array.isArray(indices)) indices = [indices];
+    this.props.changeState({tree: pruneArgs(tree, indices), functionResult, reinitializeNeeded: true });
+    
+    
+    // adds trace functionality and builds tree
     function Node (args, count, level) {
-      // enter truthy for "time machine mode":
-      // (the future changes the past)
-      // args will be reference, so will be updated
-      // if mutated as function executes
-      // this.value = 1 ? args : JSON.parse(JSON.stringify(args));
-      this.name = args;
+      this.name = args.length > 1 ? JSON.parse(JSON.stringify(args)) : args[0];
       this.count = count;
       this.level = level;
       this.children = [];
     }
     
-    function trace(funcObj) {
-      if (typeof funcObj !== 'object') return;
+    function trace(func) {
+      if (typeof func !== 'function') return;
       
       let count = 0;
       let level = 0;
-      let parents = [];  
+      let parents = [];
       
-console.log('funcObj:', funcObj)
-      const [funcName, func] = Object.entries(funcObj)[0];
-
-// // eval funcStr
-//       const evalThis = 'const func = ' + funcStr;
-// eval(evalThis);
-// console.log('func:', func);
-
-
-      if (typeof func !== 'function') return;
-console.log('fib:', fib)
-
-      const res = funcName + ' = ' + newFunc.toString();
-      eval(res);
-console.log('fib after eval:', fib)
-      // newFunc = newFunc.bind(this);
       return newFunc;  
       
-      // trace functionality
+      // shell/wrapper for original recursive function
+      // to add trace functionality
       function newFunc(...args) {
         const curr = new Node(args, count, level);
         
-        if (!level) head = curr;
+        if (!level) tree = curr;
         
         if (parents.length) {
           parents[parents.length - 1].children.push(curr);
         }
-        
         count++;
         level++;
         
@@ -79,59 +90,81 @@ console.log('fib after eval:', fib)
       }
     }
     
-    const { functionText } = this.props;
-
-      console.log('functionText:', functionText);
-      let evilFunc;
-      const evalThis = 'evilFunc = ' + functionText;
-
-      console.log('evalThis:', evalThis)
-      'let funcName'
-      eval(evalThis);
-let fib;
-      // const evilFunc = function fib(n) {
-      //   if (n < 2) return n;
-      //   return fib(n - 1) + fib(n - 2);
-      // };
-      
-      // console.log('evilFunc:', evilFunc)
-      
-      // // algo to grab function name from text;
-      const funcName = 'fib'    
-
-      const passFunc = {};
-      passFunc[funcName] = evilFunc;
-      
-      // console.log('passFunc:', passFunc);
-      
-      const traced = trace(passFunc);
-      
-      console.log('traced:', traced)
-      const initialArgs = [5];
-      
-      // console.log('Result: ', traced(...initialArgs));
-      
-      console.log('Head:', head)
     
+    // helper functions
+    function grabName(text) {
+      text = text.trim();
+      let str = '';
+      let hitSpace = false;
+      
+      for (let i = 0; i < text.length; i++) {
+        const curr = text[i];
+        if (hitSpace && str.length && (curr === ' ' || curr === '(')) {
+          break;
+        }
+        if (hitSpace && curr !== ' ' && curr !== '(') {
+          str += curr;
+          continue;
+        }
+        if (curr === ' ') {
+          hitSpace = true;
+        }
+      }
+      return str;   
+    }
+    
+    // removes non-displayed indices from each node's arguments
+    // and stringifies args for d3 tree display
+    function pruneArgs(t, i) {
+      function clone(items) {
+        if (!items || typeof items !== 'object') return items;
+        const isArray = Array.isArray(items);
+        const output = isArray ? [] : {};
+        Object.keys(items).forEach(key => {
+          let val = items[key];
+          if (key === 'name') {
+            if (Array.isArray(val) && i.length) val = i.map(el => val[el]);
+            val = JSON.stringify(val);
+          }
+          output[key] = clone(val);
+        })
+        return output;
+      }
+      return clone(t);
+    }
   }
-  
-  
-  
   
   render() {
     
-    console.log(2222, this.props.functionText)
     return (
-      <div>
-      <label>Enter function here:<br/></label>
+      <div className="topEditor">
+      <label className='editor'>Enter function here:<br/></label>
       
-      <textarea className='functionEditor' id="functionText" value={ this.props.functionText } onChange={(e) => {
-        this.props.changeState({ functionText: e.target.value });
+      <textarea className="functionEditor" id="functionText" value={ this.props.inputs.functionText } onChange={(e) => {
+        this.props.changeState({ inputs: {...this.props.inputs, functionText: e.target.value }});
       }} rows="8" cols="100">
       </textarea>
       <br/>
-      <button type="submit" id='execute' onClick={(e) => {this.handleClick(e)}}>Execute</button>
-      <button type="clear" id='clearText' onClick={(e) => {this.handleClick(e)}}>Clear</button>
+      <br/>
+      <label className='editor'>Enter arguments here (single value or array of values):<br/></label>
+      
+      <textarea className="argsEditor" id="argsText" value={ this.props.inputs.argsText } onChange={(e) => {
+        this.props.changeState({ inputs: {...this.props.inputs, argsText: e.target.value }});
+      }} rows="1" cols="50">
+      </textarea>
+      <br/>
+      
+      <br/>
+      <label className='editor'>Enter index or indices of arguments to display (single value or array of values) * Optional *:<br/></label>
+      
+      <textarea className="indexEditor" id="indexText" value={ this.props.inputs.indexText } onChange={(e) => {
+        this.props.changeState({ inputs: {...this.props.inputs, indexText: e.target.value }});
+      }} rows="1" cols="20">
+      </textarea>
+      <br/>
+      
+      <button type="submit" id="execute" onClick={(e) => {this.handleClick(e)}}>Execute</button>
+      <button type="clear" id="clearText" onClick={(e) => {this.handleClick(e)}}>Clear</button>
       <br/>
       <br/>
       <br/>
@@ -143,22 +176,44 @@ let fib;
   
   export default Input;
   
-  // <textarea
-  //            className='html-editor'  
-  //            ref='myTextarea' 
-  //           value = {this.state.textareaVal}
-  //           onChange={(event)=>{
-  //                       this.setState({
-  //                          textareaVal:event.target.value;
-  //                       });
-  //                    }}
-  //        >
-  //       </textarea>` 
-  
-  // <textarea className='functionEditor' id="functionText" name="functionText" rows="4" cols="100">
-  
+  // sample recursive functions
   
   // function fib(n) {
   //       if (n < 2) return n;
   //       return fib(n - 1) + fib(n - 2);
   //     }
+  
+  //   function generateParentheses(num, str = '', left = num, right = num) {
+  //   const parens = [];
+  //   if (!right) return [str]
+  //   if (left) parens.push(...generateParentheses(num, str + '(', left - 1, right));
+  //   if (left < right) parens.push(...generateParentheses(num, str + ')', left, right - 1));
+  //   return parens;
+  // }
+  
+  
+  // function generateParentheses(maxToOpen, openNow = 0, current = '', results) {
+  //       if (!maxToOpen && !openNow) return [current];
+  //       const perms = [];
+  //       if (maxToOpen) {
+  //         perms.push(...generateParentheses(maxToOpen - 1, openNow + 1, `${current}(`, perms));
+  //       }
+  //       if (openNow) {
+  //         perms.push(...generateParentheses(maxToOpen, openNow - 1, `${current})`, perms));
+  //       }
+  //       return perms;
+  //     }
+  
+  
+  // function rockPaperScissors(num, currentSequence = []){
+  //   if (num < 1) return [currentSequence];
+  
+  //   const objects = ['r', 'p', 's']
+  
+  //   const total = [];    
+  //   for (let i = 0; i <= 2; i++) {
+  //     total.push(...rockPaperScissors(num - 1, currentSequence.concat(objects[i])))
+  //   }
+  //   return total;
+  // }
+  

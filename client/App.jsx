@@ -21,9 +21,18 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      loggedIn: false,
-      functionText: '',
+      loggedIn: true, //false,
+      inputs: {
+        functionText: `function fib(n) {
+          if (n < 2) return n;
+          return fib(n - 1) + fib(n - 2);
+        }`,
+        argsText: '3',
+        indexText: '',
+      },
       tree: {},
+      functionResult: null,
+      reinitializeNeeded: false,
     };
     this.changeState = this.changeState.bind(this);
   }
@@ -31,8 +40,6 @@ class App extends Component {
   changeState(obj) {
     this.setState(obj);
   }
-
-  componentDidMount() {}
 
   render() {
     console.log(this.state);
@@ -42,10 +49,12 @@ class App extends Component {
         <div>
           {this.state.loggedIn ? (
             <div>
-              <Redirect to='/visualizer' />
-              <Route exact path='/visualizer'>
+              <Redirect to='/maincontainer' />
+              <Route exact path='/maincontainer'>
                 <MainContainer
-                  functionText={this.state.functionText}
+                  inputs={this.state.inputs}
+                  functionResult={this.state.functionResult}
+                  reinit={this.state.reinitializeNeeded}
                   changeState={this.changeState}
                   tree={this.state.tree}
                 />
@@ -77,7 +86,7 @@ class App extends Component {
               </Route>
 
               <Route exact path='/signup'>
-                <Signup loggedin={this.state.loggedIn} />
+                <Signup />
               </Route>
             </Switch>
           )}
