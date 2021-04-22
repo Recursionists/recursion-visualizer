@@ -15,7 +15,7 @@ class MainContainer extends Component {
       <div>
       <Visualizer tree={ this.props.tree } reinit={ this.props.reinit } functionResult={ this.props.functionResult } changeState={ this.props.changeState }/>
       <Input inputs={ this.props.inputs } changeState={ this.props.changeState } />
-      <SavedFunctions />
+      {/* <SavedFunctions /> */}
       </div> 
       );
     }
