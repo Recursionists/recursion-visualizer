@@ -1,6 +1,31 @@
-body {
-background-color: dimgray;
+html {
+  height: 100%
 }
+
+a {
+  color: #E1F5C4;
+}
+
+a:visited {
+  color: #E1F5C4;
+}
+
+.links {
+  text-align: center;
+}
+body {
+  height: 100%;
+  margin: 0;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-image: linear-gradient(180deg,#283048, #859398);
+  background-color: rgb(188, 221, 223);
+  font-family: 'Share Tech Mono', monospace;
+  color: #E1F5C4;
+}
+ .editor {
+  background-color: rgb(188, 221, 223);
+ }
 
 .login-wrapper {
   display: flex;
@@ -14,10 +39,6 @@ background-color: dimgray;
   align-items: center;
 }
 
-.topEditor {
-  color: whitesmoke;
-font-size: 1.5rem;
-}
 
 .treewrapper {
   background-color: lightgrey;
@@ -27,11 +48,11 @@ font-size: 1.5rem;
 
 .resultDisplay {
   font-size: 3rem;
-  color: blueviolet;
+  color: rgb(127, 219, 252);
 }
 
 .node__root > circle {
-  fill: green;
+  fill: rgb(47, 165, 98);
 }
 
 .node__branch > circle {

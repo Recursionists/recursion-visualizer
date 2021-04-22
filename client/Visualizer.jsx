@@ -1,3 +1,4 @@
+import { color } from 'd3-color';
 import React, { Component } from 'react';
 import Tree from 'react-d3-tree';
 
@@ -109,7 +110,7 @@ class Visualizer extends Component {
       }
       
       return (
-        <div className="treeWrapper" style={{height: "900px", backgroundColor: 'lightgray'}}>
+        <div className="treeWrapper" style={{height: "900px"}}>
         { treeDisplay }
         </div>
         );

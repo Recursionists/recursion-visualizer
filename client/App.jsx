@@ -48,7 +48,7 @@ class App extends Component {
       <Router>
         <div>
           {this.state.loggedIn ? (
-            <div>
+            <div className='links'>
               <Redirect to='/maincontainer' />
               <Route exact path='/maincontainer'>
                 <MainContainer

@@ -138,26 +138,26 @@ class Input extends Component {
     
     return (
       <div className="topEditor">
-      <label className='editor'>Enter function here:<br/></label>
+      <label className='inputDesc'>Enter function here:<br/></label>
       
-      <textarea className="functionEditor" id="functionText" value={ this.props.inputs.functionText } onChange={(e) => {
+      <textarea className='editor' id="functionText" value={ this.props.inputs.functionText } onChange={(e) => {
         this.props.changeState({ inputs: {...this.props.inputs, functionText: e.target.value }});
       }} rows="8" cols="100">
       </textarea>
       <br/>
       <br/>
-      <label className='editor'>Enter arguments here (single value or array of values):<br/></label>
+      <label className='inputDesc'>Enter arguments here (single value or array of values):<br/></label>
       
-      <textarea className="argsEditor" id="argsText" value={ this.props.inputs.argsText } onChange={(e) => {
+      <textarea className='editor' id="argsText" value={ this.props.inputs.argsText } onChange={(e) => {
         this.props.changeState({ inputs: {...this.props.inputs, argsText: e.target.value }});
       }} rows="1" cols="50">
       </textarea>
       <br/>
       
       <br/>
-      <label className='editor'>Enter index or indices of arguments to display (single value or array of values) * Optional *:<br/></label>
+      <label className='inputDesc'>Enter index or indices of arguments to display (single value or array of values) * Optional *:<br/></label>
       
-      <textarea className="indexEditor" id="indexText" value={ this.props.inputs.indexText } onChange={(e) => {
+      <textarea className='editor' id="indexText" value={ this.props.inputs.indexText } onChange={(e) => {
         this.props.changeState({ inputs: {...this.props.inputs, indexText: e.target.value }});
       }} rows="1" cols="20">
       </textarea>

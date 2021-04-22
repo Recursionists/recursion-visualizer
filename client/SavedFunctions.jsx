@@ -5,12 +5,24 @@ class Visualizer extends Component {
     super(props);
   }
   
+
+  handleClick(e){
+    const { functionText } = this.props.inputs;
+    console.log('trigger saved btn and heres functext: ', functionText);
+    
+  }
+
+
+  
+
+
+
   render() {
     
     
     return (
       <div>
-      Saved functions
+      <button type="save" id='save' onClick={(e) => {this.handleClick(e)}}>Save Function</button>
       </div> 
       );
     }
