@@ -93,11 +93,12 @@ class Input extends Component {
     
     // helper functions
     function grabName(text) {
+      text = text.trim();
       let str = '';
       let hitSpace = false;
       
-      for (let i = 0; i < functionText.length; i++) {
-        const curr = functionText[i];
+      for (let i = 0; i < text.length; i++) {
+        const curr = text[i];
         if (hitSpace && str.length && (curr === ' ' || curr === '(')) {
           break;
         }
@@ -182,6 +183,14 @@ class Input extends Component {
   //       return fib(n - 1) + fib(n - 2);
   //     }
   
+  //   function generateParentheses(num, str = '', left = num, right = num) {
+  //   const parens = [];
+  //   if (!right) return [str]
+  //   if (left) parens.push(...generateParentheses(num, str + '(', left - 1, right));
+  //   if (left < right) parens.push(...generateParentheses(num, str + ')', left, right - 1));
+  //   return parens;
+  // }
+  
   
   // function generateParentheses(maxToOpen, openNow = 0, current = '', results) {
   //       if (!maxToOpen && !openNow) return [current];
@@ -194,3 +203,17 @@ class Input extends Component {
   //       }
   //       return perms;
   //     }
+  
+  
+  // function rockPaperScissors(num, currentSequence = []){
+  //   if (num < 1) return [currentSequence];
+  
+  //   const objects = ['r', 'p', 's']
+  
+  //   const total = [];    
+  //   for (let i = 0; i <= 2; i++) {
+  //     total.push(...rockPaperScissors(num - 1, currentSequence.concat(objects[i])))
+  //   }
+  //   return total;
+  // }
+  

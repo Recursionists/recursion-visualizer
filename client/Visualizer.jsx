@@ -90,9 +90,12 @@ class Visualizer extends Component {
     let treeDisplay
     if (Object.keys(treeState).length) { 
       
+      const result = JSON.stringify(this.props.functionResult)
+      let tail = result.length > 15 ? '...' :'';
+      
       treeDisplay = (
         <span>
-        <span className="resultDisplay"> Function result: {JSON.stringify(this.props.functionResult)} </span>
+        <span className="resultDisplay"> Function result: { result.slice(0, 80).concat(tail) } </span>
         <Tree data={ treeState }
         orientation="vertical"
         translate={{x:800, y:200}}
