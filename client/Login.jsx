@@ -65,7 +65,7 @@ class Login extends Component {
       <form onSubmit={ this.handleSubmit }>
       <label>
       <p>Username</p>
-      <input type="text" placeholder="pee" onChange={e=>{this.formChange(e)}}/>
+      <input type="text" placeholder="Enter Name Here" onChange={e=>{this.formChange(e)}}/>
       </label>
       <label>
       <p>Password</p>

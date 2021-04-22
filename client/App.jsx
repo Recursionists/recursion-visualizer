@@ -59,7 +59,7 @@ class App extends Component {
     
     return (
       <Router>
-      <div>
+      <div className="links">
       { this.state.loggedIn ? <div>  
         <Redirect to="/maincontainer" />
         <Route exact path="/maincontainer">
@@ -70,8 +70,8 @@ class App extends Component {
         :
         <Switch>        
         <Route exact path="/">
-        <Link to="/oauth">Github Oauth<br/></Link>
-        <Link to="/login">Login Without Github<br/></Link>
+        <Link to="/oauth">Google / Github<br/></Link>
+        <Link to="/login">Login<br/></Link>
         <Link to="/signup">Sign Up<br/></Link>
         </Route>
         

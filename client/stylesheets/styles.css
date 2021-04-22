@@ -1,3 +1,32 @@
+html {
+  height: 100%
+}
+
+a {
+  color: #E1F5C4;
+}
+
+a:visited {
+  color: #E1F5C4;
+}
+
+.links {
+  text-align: center;
+}
+body {
+  height: 100%;
+  margin: 0;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-image: linear-gradient(180deg,#283048, #859398);
+  background-color: rgb(188, 221, 223);
+  font-family: 'Share Tech Mono', monospace;
+  color: #E1F5C4;
+}
+ .editor {
+  background-color: rgb(188, 221, 223);
+ }
+
 .login-wrapper {
   display: flex;
   flex-direction: column;

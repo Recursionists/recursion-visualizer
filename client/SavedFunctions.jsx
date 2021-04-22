@@ -7,9 +7,16 @@ class Visualizer extends Component {
   
 
   handleClick(e){
-    console.log('hit saved button')
-
+    const { functionText } = this.props.inputs;
+    console.log('trigger saved btn and heres functext: ', functionText);
+    
   }
+
+
+  
+
+
+
   render() {
     
     
