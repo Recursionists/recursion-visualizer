@@ -22,7 +22,8 @@ signupController.createUser = (req, res, next) => {
         code: e.code,
         message: e.detail,
       };
-      res.redirect('/');
+      console.log(e);
+      return next();
     });
 };
 

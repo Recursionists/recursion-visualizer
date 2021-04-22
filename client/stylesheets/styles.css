@@ -39,12 +39,26 @@ body {
   align-items: center;
 }
 
+
 .treewrapper {
-  /* display: flex;
-  flex-direction: column;
-  align-items: center; */
-height: 1000px;
-width: 1000px;
-background-color: aquamarine;
-color: brown;
+  background-color: lightgrey;
+  height: 1000px;
+  width: 1000px;
+}
+
+.resultDisplay {
+  font-size: 3rem;
+  color: blueviolet;
+}
+
+.node__root > circle {
+  fill: green;
+}
+
+.node__branch > circle {
+  fill: lightblue;
+}
+
+.node__leaf > circle {
+  fill: tan;
 }

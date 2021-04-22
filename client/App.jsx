@@ -4,8 +4,8 @@ import {
   Switch,
   Route,
   Link,
-  Redirect
-} from "react-router-dom";
+  Redirect,
+} from 'react-router-dom';
 
 import Oauth from './Oauth.jsx';
 import Login from './Login.jsx';
@@ -18,45 +18,33 @@ import MainContainer from './MainContainer.jsx';
 
 import './stylesheets/styles.css';
 
-
-
-
-
-
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      loggedIn: false,
+      loggedIn: true, //false,
       inputs: {
         functionText: `function fib(n) {
           if (n < 2) return n;
           return fib(n - 1) + fib(n - 2);
         }`,
-        argsText: '',
-        indexText: ''
+        argsText: '3',
+        indexText: '',
       },
-      tree: {}
-    }
+      tree: {},
+      functionResult: null,
+      reinitializeNeeded: false,
+    };
     this.changeState = this.changeState.bind(this);
-  } 
-  
+  }
+
   changeState(obj) {
     this.setState(obj);
-    // console.log(this.state);
   }
-  
-  componentDidMount() {
-    
-  }
-  
-  
-  
+
   render() {
-    
     console.log(this.state);
-    
-    
+
     return (
       <Router>
       <div className="links">
@@ -91,10 +79,8 @@ class App extends Component {
       }
       </div>
       </Router>
-      );
-    }
-    
+    );
   }
-  
-  export default App;
-  
+}
+
+export default App;
