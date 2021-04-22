@@ -5,12 +5,17 @@ class Visualizer extends Component {
     super(props);
   }
   
+
+  handleClick(e){
+    console.log('hit saved button')
+
+  }
   render() {
     
     
     return (
       <div>
-      Saved functions
+      <button type="save" id='save' onClick={(e) => {this.handleClick(e)}}>Save Function</button>
       </div> 
       );
     }

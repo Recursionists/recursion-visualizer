@@ -27,11 +27,15 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      loggedIn: true,
-      functionText: `function fib(n) {
-        if (n < 2) return n;
-        return fib(n - 1) + fib(n - 2);
-      }`,
+      loggedIn: false,
+      inputs: {
+        functionText: `function fib(n) {
+          if (n < 2) return n;
+          return fib(n - 1) + fib(n - 2);
+        }`,
+        argsText: '',
+        indexText: ''
+      },
       tree: {}
     }
     this.changeState = this.changeState.bind(this);
@@ -59,8 +63,8 @@ class App extends Component {
       { this.state.loggedIn ? <div>  
         <Redirect to="/maincontainer" />
         <Route exact path="/maincontainer">
-        <MainContainer functionText={ this.state.functionText } changeState={ this.changeState } tree={ this.state.tree }
-/> 
+        <MainContainer inputs={ this.state.inputs } changeState={ this.changeState } tree={ this.state.tree }
+        /> 
         </Route>
         </div>
         :
