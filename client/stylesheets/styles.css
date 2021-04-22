@@ -48,11 +48,11 @@ body {
 
 .resultDisplay {
   font-size: 3rem;
-  color: blueviolet;
+  color: rgb(127, 219, 252);
 }
 
 .node__root > circle {
-  fill: green;
+  fill: rgb(47, 165, 98);
 }
 
 .node__branch > circle {

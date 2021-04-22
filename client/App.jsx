@@ -12,7 +12,6 @@ import Login from './Login.jsx';
 import Signup from './Signup.jsx';
 import MainContainer from './MainContainer.jsx';
 
-//test123
 // import * as d3 from 'd3';
 // import Tree from 'react-d3-tree';
 
@@ -47,37 +46,51 @@ class App extends Component {
 
     return (
       <Router>
-      <div className="links">
-      { this.state.loggedIn ? <div>  
-        <Redirect to="/maincontainer" />
-        <Route exact path="/maincontainer">
-        <MainContainer inputs={ this.state.inputs } changeState={ this.changeState } tree={ this.state.tree }
-        /> 
-        </Route>
+        <div>
+          {this.state.loggedIn ? (
+            <div className='links'>
+              <Redirect to='/maincontainer' />
+              <Route exact path='/maincontainer'>
+                <MainContainer
+                  inputs={this.state.inputs}
+                  functionResult={this.state.functionResult}
+                  reinit={this.state.reinitializeNeeded}
+                  changeState={this.changeState}
+                  tree={this.state.tree}
+                />
+              </Route>
+            </div>
+          ) : (
+            <Switch>
+              <Route exact path='/'>
+                <Link to='/oauth'>
+                  Github Oauth
+                  <br />
+                </Link>
+                <Link to='/login'>
+                  Login Without Github
+                  <br />
+                </Link>
+                <Link to='/signup'>
+                  Sign Up
+                  <br />
+                </Link>
+              </Route>
+
+              <Route exact path='/oauth'>
+                <Oauth />
+              </Route>
+
+              <Route exact path='/login'>
+                <Login changeState={this.changeState} />
+              </Route>
+
+              <Route exact path='/signup'>
+                <Signup />
+              </Route>
+            </Switch>
+          )}
         </div>
-        :
-        <Switch>        
-        <Route exact path="/">
-        <Link to="/oauth">Google / Github<br/></Link>
-        <Link to="/login">Login<br/></Link>
-        <Link to="/signup">Sign Up<br/></Link>
-        </Route>
-        
-        <Route exact path="/oauth">
-        <Oauth />
-        </Route>
-        
-        <Route exact path="/login">
-        <Login changeState={ this.changeState }/>
-        </Route>
-        
-        <Route exact path="/signup">
-        <Signup />
-        </Route>
-        
-        </Switch>
-      }
-      </div>
       </Router>
     );
   }
