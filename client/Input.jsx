@@ -23,18 +23,36 @@ class Input extends Component {
   execute() {
     let tree;
     
+    // evaluate input text and call trace function
+    const { functionText } = this.props.inputs;
+    let fnName = grabName(functionText);
+    const replacedText = functionText.replaceAll(fnName, 'ourfunc').replace('ourfunc', fnName);
+    
+    let evilFunc;
+    const evalThis = 'evilFunc = ' + replacedText;
+    eval(evalThis);
+    const ourfunc = trace(evilFunc);
+    
+    const { argsText } = this.props.inputs;
+    const evilArgs = eval(argsText);
+    let functionResult;
+    if (Array.isArray(evilArgs)) {
+      functionResult = ourfunc(...evilArgs);
+    } else {
+      functionResult = ourfunc(evilArgs);      
+    }
+    
+    console.log('Head:', tree)
+    const { indexText } = this.props.inputs;
+    let indices = eval(indexText);
+    if (indices === undefined) indices = [];
+    if (!Array.isArray(indices)) indices = [indices];
+    this.props.changeState({tree: pruneArgs(tree, indices), functionResult, reinitializeNeeded: true });
+    
+    
+    // adds trace functionality and builds tree
     function Node (args, count, level) {
-      // enter truthy for "time machine mode":
-      // (the future changes the past)
-      // args will be reference, so will be updated
-      // if mutated as function executes
-      // this.name = 0 ? args : JSON.parse(JSON.stringify(args));
-      
-      // this.name = JSON.stringify(args.length > 1 ? JSON.parse(JSON.stringify(args)) : JSON.parse(JSON.stringify(args[0])));
-      
-      // this.name = JSON.stringify(args.length > 1 ? args : args[0]);
       this.name = args.length > 1 ? JSON.parse(JSON.stringify(args)) : args[0];
-      
       this.count = count;
       this.level = level;
       this.children = [];
@@ -49,9 +67,9 @@ class Input extends Component {
       
       return newFunc;  
       
-      // trace functionality
+      // shell/wrapper for original recursive function
+      // to add trace functionality
       function newFunc(...args) {
-        
         const curr = new Node(args, count, level);
         
         if (!level) tree = curr;
@@ -71,30 +89,6 @@ class Input extends Component {
         return res;
       }
     }
-    
-    const { functionText } = this.props.inputs;
-    let fnName = grabName(functionText);
-    const replacedText = functionText.replaceAll(fnName, 'ourfunc').replace('ourfunc', fnName);
-    
-    let evilFunc;
-    const evalThis = 'evilFunc = ' + replacedText;
-    eval(evalThis);
-    const ourfunc = trace(evilFunc);
-    
-    const { argsText } = this.props.inputs;
-    const evilArgs = eval(argsText);
-    if (Array.isArray(evilArgs)) {
-      ourfunc(...evilArgs);
-    } else {
-      ourfunc(evilArgs);      
-    }
-    
-    console.log('Head:', tree)
-    const { indexText } = this.props.inputs;
-    let indices = eval(indexText);
-    if (indices === undefined) indices = [];
-    if (!Array.isArray(indices)) indices = [indices];
-    this.props.changeState({tree: pruneArgs(tree, indices)});
     
     
     // helper functions
@@ -118,6 +112,8 @@ class Input extends Component {
       return str;   
     }
     
+    // removes non-displayed indices from each node's arguments
+    // and stringifies args for d3 tree display
     function pruneArgs(t, i) {
       function clone(items) {
         if (!items || typeof items !== 'object') return items;
@@ -135,46 +131,39 @@ class Input extends Component {
       }
       return clone(t);
     }
-    
-    
-    
   }
-  
-  
-  
   
   render() {
     
     return (
-      <div>
-      <label>Enter function here:<br/></label>
+      <div className="topEditor">
+      <label className='editor'>Enter function here:<br/></label>
       
-      <textarea className='functionEditor' id="functionText" value={ this.props.inputs.functionText } onChange={(e) => {
+      <textarea className="functionEditor" id="functionText" value={ this.props.inputs.functionText } onChange={(e) => {
         this.props.changeState({ inputs: {...this.props.inputs, functionText: e.target.value }});
       }} rows="8" cols="100">
       </textarea>
       <br/>
       <br/>
-      <label>Enter arguments here (single value or array of values):<br/></label>
+      <label className='editor'>Enter arguments here (single value or array of values):<br/></label>
       
-      <textarea className='argsEditor' id="argsText" value={ this.props.inputs.argsText } onChange={(e) => {
+      <textarea className="argsEditor" id="argsText" value={ this.props.inputs.argsText } onChange={(e) => {
         this.props.changeState({ inputs: {...this.props.inputs, argsText: e.target.value }});
       }} rows="1" cols="50">
       </textarea>
       <br/>
       
       <br/>
-      <label>Enter index or indices of arguments to display (single value or array of values) * Optional *:<br/></label>
+      <label className='editor'>Enter index or indices of arguments to display (single value or array of values) * Optional *:<br/></label>
       
-      <textarea className='indexEditor' id="indexText" value={ this.props.inputs.indexText } onChange={(e) => {
+      <textarea className="indexEditor" id="indexText" value={ this.props.inputs.indexText } onChange={(e) => {
         this.props.changeState({ inputs: {...this.props.inputs, indexText: e.target.value }});
       }} rows="1" cols="20">
       </textarea>
       <br/>
       
-      
-      <button type="submit" id='execute' onClick={(e) => {this.handleClick(e)}}>Execute</button>
-      <button type="clear" id='clearText' onClick={(e) => {this.handleClick(e)}}>Clear</button>
+      <button type="submit" id="execute" onClick={(e) => {this.handleClick(e)}}>Execute</button>
+      <button type="clear" id="clearText" onClick={(e) => {this.handleClick(e)}}>Clear</button>
       <br/>
       <br/>
       <br/>

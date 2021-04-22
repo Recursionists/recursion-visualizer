@@ -18,11 +18,6 @@ import MainContainer from './MainContainer.jsx';
 
 import './stylesheets/styles.css';
 
-
-
-
-
-
 class App extends Component {
   constructor(props) {
     super(props);
@@ -33,29 +28,24 @@ class App extends Component {
           if (n < 2) return n;
           return fib(n - 1) + fib(n - 2);
         }`,
-        argsText: '',
+        argsText: '3',
         indexText: ''
       },
-      tree: {}
+      tree: {},
+      functionResult: null,
+      reinitializeNeeded: false
     }
     this.changeState = this.changeState.bind(this);
   } 
   
   changeState(obj) {
     this.setState(obj);
-    // console.log(this.state);
   }
-  
-  componentDidMount() {
-    
-  }
-  
   
   
   render() {
     
     console.log(this.state);
-    
     
     return (
       <Router>
@@ -63,7 +53,7 @@ class App extends Component {
       { this.state.loggedIn ? <div>  
         <Redirect to="/maincontainer" />
         <Route exact path="/maincontainer">
-        <MainContainer inputs={ this.state.inputs } changeState={ this.changeState } tree={ this.state.tree }
+        <MainContainer inputs={ this.state.inputs } functionResult={ this.state.functionResult} reinit={ this.state.reinitializeNeeded } changeState={ this.changeState } tree={ this.state.tree }
         /> 
         </Route>
         </div>
